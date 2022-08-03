@@ -35,7 +35,9 @@ A snippet of the generated output:
   /*0110*/ @!P0 BRA `(.L_x_0) ;                                // [ 5   ]
   /*0120*/      EXIT ;                                         // [ 5   ]
 ```
-It can be seen that the latency for ISETP is 13 cycles. Y is for yield, meaning the scheduler is made to favor switching to another warp.<br>
+It can be seen that the latency for ISETP is 13 cycles. Y is for yield, meaning the scheduler is made to favor switching to another warp. Maxwell-like architectures can in some cases dual-issue (two instructions in one clock), which is seen with a latency of 0.
+
+
 Then WRX is to protect against read-after-write hazards (I.e. variable latency), and RDX to protect against write-after-read issues (STG has delayed access to R2, so the address in R2 may not be overwritten before it has been read). Lastly, the bitfield of 6 values is where instructions are made to wait (Instruction 0080 waits for 00f0, and 00d0 waits for 00a0) - it is a bitfield as one instruction can wait for more than one barrier.
 
 This insight into the inner workings of the [Instruction Scheduling](https://en.wikipedia.org/wiki/Instruction_scheduling) can be used to guide optimizations.
