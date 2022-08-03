@@ -12,8 +12,19 @@ nvdisasm -hex -c -novliw example.cubin > example.sass
 python3 sassoverlay.py -s example.sass > example_overlaid.sass
 ```
 The argument -s is to suppress the hex codes. 
-A snippet of the generated output:
+An example of the output:
 ```
+// The CUDA-function
+__global__ void kernel(float *out, int N) {
+  // Disable loop unrolling, so we don't get a massive SASS-output.
+  #pragma unroll 1
+  for(int i = 0; i < N; i++)
+    out[i] += 5;
+}
+
+
+// The SASS-instructions
+
   /*0000*/      IMAD.MOV.U32 R1, RZ, RZ, c[0x0][0x28] ;        // [ 2 Y ]
   /*0010*/      IMAD.MOV.U32 R0, RZ, RZ, c[0x0][0x168] ;       // [ 5 Y ]
   /*0020*/      ISETP.GE.AND P0, PT, R0, 0x1, PT ;             // [13 Y ]
