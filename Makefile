@@ -4,13 +4,16 @@ PYTHON=python3
 CUDAFLAGS=-arch=sm_86
 
 
-all: example.sass
+all: example.sass example.sass_overlaid
 
 clean:
-	-rm -f $(targets)
+	-rm -f example.sass example.sass_overlaid
 
 %.sass: %.cubin
-	$(NVDISASM) -hex -c -novliw $< | $(PYTHON) sassoverlay.py -s > $@
+	$(NVDISASM) -hex -c -novliw $< > $@
+
+%.sass_overlaid: %.sass
+	$(PYTHON) sassoverlay.py -s $< > $@
 
 %.cubin: %.cu
 	$(NVCC) -cubin -o $@ $(CUDAFLAGS) $<
