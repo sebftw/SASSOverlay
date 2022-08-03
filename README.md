@@ -24,7 +24,7 @@ __global__ void kernel(float *out, int N) {
 
 
 // The SASS-instructions
-
+                                                               // [STALL|VARIABLE LATENCY]
   /*0000*/      IMAD.MOV.U32 R1, RZ, RZ, c[0x0][0x28] ;        // [ 2 Y ]
   /*0010*/      IMAD.MOV.U32 R0, RZ, RZ, c[0x0][0x168] ;       // [ 5 Y ]
   /*0020*/      ISETP.GE.AND P0, PT, R0, 0x1, PT ;             // [13 Y ]
