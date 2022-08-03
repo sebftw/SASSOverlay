@@ -191,8 +191,6 @@ class Turing(Maxwell):
 
 
 
-arch = Turing
-
 def discover_arch(lines):
     consumed_lines = []
     status = []
