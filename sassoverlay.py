@@ -292,71 +292,7 @@ def overlay(lines, arch=None):
 if __name__ == "__main__":
     # Thanks to https://arxiv.org/pdf/1903.07486.pdf for a good description of the encoding.
     args, remaining_args = handle_arguments()
-    prev_code = 0
-    # Run through lines in the given input files or the stdin.
-    prev_line = None
-    control_bundle = 0
-    opcode = None
-
+    
     for line_overlaid in overlay(fileinput.input(remaining_args)):
         sys.stdout.write(line_overlaid)
-
-    if False:
-        if match is None:
-            # In this case just pass - through.
-            sys.stdout.write(line)
-            continue
-        code = int(match.group(hex_group), 16)  # Get the hex code value.
-
-        # Every instruction ends with ; and is followed by the hex code output.
-        is_instruction_line = match.group(4) is not None # match.group(1)[-1] == ';'
-        if is_instruction_line:
-            opcode = match.group(4).split()[0].split('.')[0]
-
-        # if arch.bundled_control:
-        # On older architectures, the control information for multiple instructions are collected in "bundles".
-        if not is_instruction_line: # or not arch.bundled_control:
-            # This is a control code bundle.
-            control_bundle = code
-
-        control_code = control_bundle & arch.mask  # Get the bits corresponding to control code information.
-        control_code = control_code >> ffs(arch.mask)  # Remove the trailing zeroes.
-        if is_instruction_line and arch.bundled_control:
-            # Shift to the next part of control code bundle.
-            control_bundle = control_bundle >> bit_count(arch.mask)
-        # print(bin(control_bundle), bin(code))
-
-        if args.suppress_hex and (not is_instruction_line and arch.bundled_control):
-            continue
-
-        if args.suppress_hex or not arch.bundled_control:
-            line = line[:match.start(hex_group) - 3] + line[match.end(hex_group) + 3:].rstrip()
-        else:
-            line = line.rstrip()
-
-        # control_string = 'A'
-        print_now = False
-        if is_instruction_line and arch.bundled_control:
-            print_now = True
-            # opcode = opcode.split()[0].split('.')[0]
-            #control_string = str(arch.pretty_control(arch.decode_control(control_code), opcode))
-            #sys.stdout.write(line + ' ' + control_string + '\n')
-        elif not arch.bundled_control and not is_instruction_line:
-            print_now = True
-            if not args.suppress_hex:
-                prev_line = prev_line + '/* 0x{:032x} */'.format((code<<64) + prev_code)
-
-        if print_now:
-            control_string = str(arch.pretty_control(arch.decode_control(control_code), opcode))
-            line_print = prev_line
-            if arch.bundled_control:
-                line_print = line
-            sys.stdout.write(line_print + ' // ' + control_string + '\n')
-
-        prev_line = line
-        prev_opcode = opcode
-        prev_code = code
-
-    # print(line)
-
-    # print('Done!')
+    
