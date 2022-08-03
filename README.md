@@ -41,3 +41,7 @@ It can be seen that the latency for ISETP is 13 cycles. Y is for yield, meaning 
 Then WRX is to protect against read-after-write hazards (I.e. variable latency), and RDX to protect against write-after-read issues (STG has delayed access to R2, so the address in R2 should not be overwritten before it has been read). Lastly, the bitfield of 6 values is where instructions are made to wait (Instruction 0080 waits for 00f0, and 00d0 waits for 00a0) - it is a bitfield as one instruction can wait for more than one barrier.
 
 This insight into the inner workings of the [Instruction Scheduling](https://en.wikipedia.org/wiki/Instruction_scheduling) can be used to guide optimizations.
+
+Possible future directions:
+1. Add the information to the NVIDIA Nsight Compute source view (where I commonly inspect SASS) using its [Python interface](https://docs.nvidia.com/nsight-compute/CustomizationGuide/index.html#python-report-interface).
+2. Add information about which units are used and their throughput, if possible.
