@@ -9,7 +9,7 @@ Suggested usage:
 ```
 nvcc -arch=sm_86 -cubin example.cu
 nvdisasm -hex -c -novliw example.cubin > example.sass
-python3 sassoverlay.py -s example.sass > example.sass_overlaid
+python3 sassoverlay.py -s example.sass > example_overlaid.sass
 ```
 The argument -s is to suppress the hex codes. 
 A snippet of the generated output:
