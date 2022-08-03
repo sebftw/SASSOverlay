@@ -11,7 +11,8 @@ nvcc -arch=sm_86 -cubin example.cu
 nvdisasm -hex -c -novliw example.cubin > example.sass
 python3 sassoverlay.py -s example.sass > example.sass_overlaid
 ```
-The argument -s is to suppress the hex code. A snippet of the generated output:
+The argument -s is to suppress the hex codes. 
+A snippet of the generated output:
 ```
   /*0000*/      IMAD.MOV.U32 R1, RZ, RZ, c[0x0][0x28] ;        // [ 2 Y ]
   /*0010*/      IMAD.MOV.U32 R0, RZ, RZ, c[0x0][0x168] ;       // [ 5 Y ]
