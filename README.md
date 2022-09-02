@@ -56,3 +56,5 @@ This insight into the inner workings of the [Instruction Scheduling](https://en.
 Possible future directions:
 1. Add the information to the NVIDIA Nsight Compute source view (where I commonly inspect SASS) using its [Python interface](https://docs.nvidia.com/nsight-compute/CustomizationGuide/index.html#python-report-interface).
 2. Add information about which units are used and their throughput, if possible.
+
+Maybe the reason that the max number of active warps is 12 in new architectures is because that is exactly enough to cover the latency of the use of a predicate!
